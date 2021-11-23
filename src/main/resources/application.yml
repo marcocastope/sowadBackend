@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/proyectospring2?useSSL=false
+    username: root
+    password: spring-app
+    driver-class-name: com.mysql.jdbc.Driver
+    
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      
+  profiles:    active:    - development
