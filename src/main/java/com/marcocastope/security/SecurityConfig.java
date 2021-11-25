@@ -36,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors();
 		http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authorizeRequests()
-				.antMatchers("/admin/*", "/api/incident/**", "/api/street/**").hasRole("ADMIN")
-				.antMatchers("/api/incident/**", "/api/street/**").permitAll()
+				.antMatchers("/api/admin/incident/**", "/api/admin/street/**").hasRole("ADMIN")
+				.antMatchers("/api/user/incident/**", "/api/user/street/**").hasRole("USER")
 				.antMatchers("api/register", "api/auth").permitAll().and()
 				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}

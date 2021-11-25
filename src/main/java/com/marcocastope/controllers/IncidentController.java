@@ -25,13 +25,13 @@ import com.marcocastope.model.Street;
 import com.marcocastope.model.User;
 import com.marcocastope.model.request.SaveIncidentRequest;
 import com.marcocastope.model.response.GenericResponse;
-import com.marcocastope.model.response.IncidentsResponse;
 import com.marcocastope.services.IncidentService;
 import com.marcocastope.services.UserService;
+import com.marcocastope.utils.ValidateUtils;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
-@RequestMapping("/api/incident")
+@RequestMapping("/api/user/incident")
 public class IncidentController {
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -39,22 +39,6 @@ public class IncidentController {
 	private IncidentService services;
 	@Autowired
 	private UserService userService;
-
-	@GetMapping("/getAll")
-	public ResponseEntity<?> getAll() {
-		log.info("getAllIncidents() .");
-		ResponseEntity<?> resp = null;
-		try {
-			List<Incident> incidents = services.findAll();
-			resp = validateIncidentData(incidents);
-		} catch (
-
-		Exception e) {
-			log.error("Error " + e.getMessage());
-			resp = new ResponseEntity<String>("No hay datos válidos", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		return resp;
-	}
 
 	@GetMapping("/getAll/{id}")
 	public ResponseEntity<?> getAllIncidents(@PathVariable("id") Integer id) {
@@ -67,10 +51,10 @@ public class IncidentController {
 			log.info("getAllIncidents()" + currentUser.getRole().getIdrole());
 			if (currentUser.getRole().getIdrole().contains("2")) {
 				List<Incident> incidents = services.getIncidentsByUserId(id);
-				resp = validateIncidentData(incidents);
+				resp = ValidateUtils.validateIncidentData(incidents);
 			} else {
 				List<Incident> incidents = services.findAll();
-				resp = validateIncidentData(incidents);
+				resp = ValidateUtils.validateIncidentData(incidents);
 			}
 
 		} catch (Exception e) {
@@ -163,14 +147,4 @@ public class IncidentController {
 		return resp;
 	}
 
-	private ResponseEntity<?> validateIncidentData(List<Incident> incidents) {
-		ResponseEntity<?> resp;
-		if (incidents.isEmpty()) {
-			resp = new ResponseEntity<String>("No hay datos", HttpStatus.NO_CONTENT);
-		} else {
-			IncidentsResponse response = new IncidentsResponse(incidents);
-			resp = new ResponseEntity<IncidentsResponse>(response, HttpStatus.OK);
-		}
-		return resp;
-	}
 }

@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/proyectospring2?useSSL=false
+    url: jdbc:mysql://localhost:3306/proyectospring?allowPublicKeyRetrieval=true&useSSL=false
     username: root
-    password: spring-app
-    driver-class-name: com.mysql.jdbc.Driver
+    password: Secret_123
+    driver-class-name: com.mysql.cj.jdbc.Driver
     
   jpa:
     database: mysql
